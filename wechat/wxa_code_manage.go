@@ -114,7 +114,7 @@ type Audit struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/submit_audit.html
 func (s *WXAService) SubmitAudit(ctx context.Context, token string, r *SubmitAuditRequest) (*Audit, *Response, error) {
-	u := fmt.Sprintf("wxa/commit?access_token=%s", token)
+	u := fmt.Sprintf("wxa/submit_audit?access_token=%s", token)
 	req, err := s.client.NewRequest("POST", u, r)
 	audit := new(Audit)
 	resp, err := s.client.Do(ctx, req, audit)
