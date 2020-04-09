@@ -124,6 +124,8 @@ func CheckResponse(r *http.Response) error {
 		json.Unmarshal(data, errorResponse)
 	}
 	if errorResponse.Code == 0 {
+		buf := bytes.NewBuffer(data)
+		r.Body = ioutil.NopCloser(buf)
 		return nil
 	}
 	return errorResponse
