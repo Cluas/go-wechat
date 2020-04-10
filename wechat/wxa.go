@@ -71,10 +71,10 @@ type Testers struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/memberauth.html
 func (s *WXAService) GetTesters(ctx context.Context, token string) (*Testers, *Response, error) {
-	u := fmt.Sprintf("wxa/bind_tester?access_token=%s", token)
-	payload := &struct {
-		action string
-	}{action: "get_experiencer"}
+	u := fmt.Sprintf("wxa/memberauth?access_token=%s", token)
+	payload := map[string]string{
+		"action": "get_experiencer",
+	}
 	req, err := s.client.NewRequest("POST", u, payload)
 	if err != nil {
 		return nil, nil, err
