@@ -123,7 +123,8 @@ type WXAMPLink struct {
 
 // WXAMPLinks link list
 type WXAMPLinks struct {
-	BIZInfoList []*WXAMPLink
+	BIZInfoList []*WXAMPLink `json:"biz_info_list,omitempty"`
+	TotalNum    int          `json:"total_num,omitempty"`
 }
 
 // GetShowWXAItem get show wxa item
