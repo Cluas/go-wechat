@@ -10,7 +10,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"sync"
 )
 
@@ -42,7 +41,7 @@ type Client struct {
 	Component *ComponentService
 }
 
-// NewClient returns a new GitHub API client. If a nil httpClient is
+// NewClient returns a new Wechat API client. If a nil httpClient is
 // provided, a new http.Client will be used. To use API methods which require
 // authentication, provide an http.Client that will perform the authentication
 // for you (such as that provided by the golang.org/x/oauth2 library).
@@ -65,9 +64,6 @@ func NewClient(httpClient *http.Client) *Client {
 // specified, the value pointed to by body is JSON encoded and included as the
 // request body.
 func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Request, error) {
-	if !strings.HasSuffix(c.BaseURL.Path, "/") {
-		return nil, fmt.Errorf("BaseURL must have a trailing slash, but %q does not", c.BaseURL)
-	}
 	u, err := c.BaseURL.Parse(urlStr)
 	if err != nil {
 		return nil, err

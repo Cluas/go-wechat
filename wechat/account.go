@@ -52,6 +52,11 @@ type BasicInfo struct {
 	HeadImageInfo  *HeadImageInfo `json:"head_image_info,omitempty"`
 }
 
+// String %q
+func (b BasicInfo) String() string {
+	return Stringify(b)
+}
+
 // GetBasicInfo fetch account basic info.
 //
 // Wechat API docs:
