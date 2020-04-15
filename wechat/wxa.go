@@ -27,7 +27,7 @@ type BindTester struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/Admin.html
 func (s *WXAService) BindTester(ctx context.Context, token string, r *BindTesterRequest) (*BindTester, *Response, error) {
-	u := fmt.Sprintf("wxa/bind_tester?access_token=%s", token)
+	u := fmt.Sprintf("wxa/bind_tester?access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, r)
 	if err != nil {
 		return nil, nil, err
@@ -53,7 +53,7 @@ type UnBindTesterRequest struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/unbind_tester.html
 func (s *WXAService) UnBindTester(ctx context.Context, token string, r *UnBindTesterRequest) (*Response, error) {
-	u := fmt.Sprintf("wxa/unbind_tester?access_token=%s", token)
+	u := fmt.Sprintf("wxa/unbind_tester?access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, r)
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ type Testers struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/memberauth.html
 func (s *WXAService) GetTesters(ctx context.Context, token string) (*Testers, *Response, error) {
-	u := fmt.Sprintf("wxa/memberauth?access_token=%s", token)
+	u := fmt.Sprintf("wxa/memberauth?access_token=%v", token)
 	payload := map[string]string{
 		"action": "get_experiencer",
 	}
@@ -101,7 +101,7 @@ type ShowWXAItem struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/subscribe_component/getshowwxaitem.html
 func (s *WXAService) GetShowWXAItem(ctx context.Context, token string) (*ShowWXAItem, *Response, error) {
-	u := fmt.Sprintf("wxa/getshowwxaitem?access_token=%s", token)
+	u := fmt.Sprintf("wxa/getshowwxaitem?access_token=%v", token)
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
@@ -132,7 +132,7 @@ type WXAMPLinks struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/subscribe_component/getwxamplinkforshow.html
 func (s *WXAService) GetWXAMpLinkForShow(ctx context.Context, token string, page, num int) (*WXAMPLinks, *Response, error) {
-	u := fmt.Sprintf("wxa/getwxamplinkforshow?access_token=%s&page=%d&num=%d", token, page, num)
+	u := fmt.Sprintf("wxa/getwxamplinkforshow?access_token=%v&page=%d&num=%d", token, page, num)
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
@@ -156,7 +156,7 @@ type UpdateShowWXAItemRequest struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/subscribe_component/updateshowwxaitem.html
 func (s *WXAService) UpdateShowWXAItem(ctx context.Context, token string, r *UpdateShowWXAItemRequest) (*Response, error) {
-	u := fmt.Sprintf("wxa/updateshowwxaitem?access_token=%s", token)
+	u := fmt.Sprintf("wxa/updateshowwxaitem?access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, r)
 	if err != nil {
 		return nil, err

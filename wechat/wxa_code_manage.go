@@ -21,7 +21,7 @@ type CommitRequest struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/commit.html
 func (s *WXAService) Commit(ctx context.Context, token string, r *CommitRequest) (*Response, error) {
-	u := fmt.Sprintf("wxa/commit?access_token=%s", token)
+	u := fmt.Sprintf("wxa/commit?access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, r)
 	if err != nil {
 		return nil, err
@@ -41,7 +41,7 @@ type Pages struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/get_page.html
 func (s *WXAService) GetPages(ctx context.Context, token string) (*Pages, *Response, error) {
-	u := fmt.Sprintf("wxa/get_page?access_token=%s", token)
+	u := fmt.Sprintf("wxa/get_page?access_token=%v", token)
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
@@ -59,7 +59,7 @@ func (s *WXAService) GetPages(ctx context.Context, token string) (*Pages, *Respo
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/get_qrcode.html
 func (s *WXAService) GetQrCode(ctx context.Context, token, path string) (*Response, error) {
-	u := fmt.Sprintf("wxa/get_qrcode?access_token=%s&path=%s", token, path)
+	u := fmt.Sprintf("wxa/get_qrcode?access_token=%v&path=%s", token, path)
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, err
@@ -114,7 +114,7 @@ type Audit struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/submit_audit.html
 func (s *WXAService) SubmitAudit(ctx context.Context, token string, r *SubmitAuditRequest) (*Audit, *Response, error) {
-	u := fmt.Sprintf("wxa/submit_audit?access_token=%s", token)
+	u := fmt.Sprintf("wxa/submit_audit?access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, r)
 	audit := new(Audit)
 	resp, err := s.client.Do(ctx, req, audit)
@@ -139,7 +139,7 @@ type AuditStatus struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/get_auditstatus.html
 func (s *WXAService) GetAuditStatusByID(ctx context.Context, token string, auditID int) (*AuditStatus, *Response, error) {
-	u := fmt.Sprintf("wxa/get_auditstatus?access_token=%s", token)
+	u := fmt.Sprintf("wxa/get_auditstatus?access_token=%v", token)
 	payload := &Audit{Int(auditID)}
 	req, err := s.client.NewRequest("POST", u, payload)
 	status := new(AuditStatus)
@@ -155,7 +155,7 @@ func (s *WXAService) GetAuditStatusByID(ctx context.Context, token string, audit
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/get_latest_auditstatus.html
 func (s *WXAService) GetLatestAuditStatus(ctx context.Context, token string) (*AuditStatus, *Response, error) {
-	u := fmt.Sprintf("wxa/get_latest_auditstatus?access_token=%s", token)
+	u := fmt.Sprintf("wxa/get_latest_auditstatus?access_token=%v", token)
 	req, err := s.client.NewRequest("GET", u, nil)
 	status := new(AuditStatus)
 	resp, err := s.client.Do(ctx, req, status)
@@ -170,7 +170,7 @@ func (s *WXAService) GetLatestAuditStatus(ctx context.Context, token string) (*A
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/undocodeaudit.html
 func (s *WXAService) UndoCodeAudit(ctx context.Context, token string) (*Response, error) {
-	u := fmt.Sprintf("wxa/undocodeaudit?access_token=%s", token)
+	u := fmt.Sprintf("wxa/undocodeaudit?access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, nil)
 	if err != nil {
 		return nil, err
@@ -183,7 +183,7 @@ func (s *WXAService) UndoCodeAudit(ctx context.Context, token string) (*Response
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/release.html
 func (s *WXAService) Release(ctx context.Context, token string) (*Response, error) {
-	u := fmt.Sprintf("wxa/release?access_token=%s", token)
+	u := fmt.Sprintf("wxa/release?access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, nil)
 	if err != nil {
 		return nil, err
@@ -196,7 +196,7 @@ func (s *WXAService) Release(ctx context.Context, token string) (*Response, erro
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/revertcoderelease.html
 func (s *WXAService) RevertCodeRelease(ctx context.Context, token string) (*Response, error) {
-	u := fmt.Sprintf("wxa/revertcoderelease?access_token=%s", token)
+	u := fmt.Sprintf("wxa/revertcoderelease?access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, nil)
 	if err != nil {
 		return nil, err
@@ -216,7 +216,7 @@ type GrayReleaseRequest struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/grayrelease.html
 func (s *WXAService) GrayRelease(ctx context.Context, token string, r *GrayReleaseRequest) (*Response, error) {
-	u := fmt.Sprintf("wxa/grayrelease?access_token=%s", token)
+	u := fmt.Sprintf("wxa/grayrelease?access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, r)
 	if err != nil {
 		return nil, err
@@ -243,7 +243,7 @@ type GrayReleasePlan struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/getgrayreleaseplan.html
 func (s *WXAService) GetGrayReleasePlan(ctx context.Context, token string) (*GrayReleaseDetail, *Response, error) {
-	u := fmt.Sprintf("wxa/getgrayreleaseplan?access_token=%s", token)
+	u := fmt.Sprintf("wxa/getgrayreleaseplan?access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, nil)
 	detail := new(GrayReleaseDetail)
 	resp, err := s.client.Do(ctx, req, detail)
@@ -258,7 +258,7 @@ func (s *WXAService) GetGrayReleasePlan(ctx context.Context, token string) (*Gra
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/revertgrayrelease.html
 func (s *WXAService) RevertGrayRelease(ctx context.Context, token string) (*Response, error) {
-	u := fmt.Sprintf("wxa/revertgrayrelease?access_token=%s", token)
+	u := fmt.Sprintf("wxa/revertgrayrelease?access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, nil)
 	if err != nil {
 		return nil, err
@@ -277,7 +277,7 @@ type VisitStatus struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/change_visitstatus.html
 func (s *service) ChangeVisitStatus(ctx context.Context, token string, action string) (*Response, error) {
-	u := fmt.Sprintf("wxa/change_visitstatus?access_token=%s", token)
+	u := fmt.Sprintf("wxa/change_visitstatus?access_token=%v", token)
 	payload := &VisitStatus{Action: String(action)}
 	req, err := s.client.NewRequest("POST", u, payload)
 	if err != nil {
@@ -301,7 +301,7 @@ type Quota struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/query_quota.html
 func (s *WXAService) QueryQuota(ctx context.Context, token string) (*Response, error) {
-	u := fmt.Sprintf("wxa/queryquota?access_token=%s", token)
+	u := fmt.Sprintf("wxa/queryquota?access_token=%v", token)
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, err
@@ -314,7 +314,7 @@ func (s *WXAService) QueryQuota(ctx context.Context, token string) (*Response, e
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/speedup_audit.html
 func (s *WXAService) SpeedupAudit(ctx context.Context, token string, auditID int) (*Response, error) {
-	u := fmt.Sprintf("wxa/speedupaudit?access_token=%s", token)
+	u := fmt.Sprintf("wxa/speedupaudit?access_token=%v", token)
 	payload := &Audit{Int(auditID)}
 	req, err := s.client.NewRequest("POST", u, payload)
 	if err != nil {

@@ -54,7 +54,7 @@ type CreateMiniProgramRequest struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/Fast_Registration_Interface_document.html
 func (s *ComponentService) CreateMiniProgram(ctx context.Context, token string, r *TokenRequest) (*Response, error) {
-	u := fmt.Sprintf("cgi-bin/component/fastregisterweapp?action=create&component_access_token=%s", token)
+	u := fmt.Sprintf("cgi-bin/component/fastregisterweapp?action=create&component_access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, r)
 	if err != nil {
 		return nil, err

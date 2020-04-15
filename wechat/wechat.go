@@ -39,6 +39,7 @@ type Client struct {
 	// Services used for talking to different parts of the Wechat API.
 	WXA       *WXAService
 	Component *ComponentService
+	Account   *AccountService
 }
 
 // NewClient returns a new Wechat API client. If a nil httpClient is
@@ -55,6 +56,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c.common.client = c
 	c.WXA = (*WXAService)(&c.common)
 	c.Component = (*ComponentService)(&c.common)
+	c.Account = (*AccountService)(&c.common)
 	return c
 }
 
@@ -208,3 +210,7 @@ func Int(v int) *int { return &v }
 // String is a helper routine that allocates a new string value
 // to store v and returns a pointer to it.
 func String(v string) *string { return &v }
+
+// Bool is a helper routine that allocates a new bool value
+// to store v and returns a pointer to it.
+func Bool(v bool) *bool { return &v }

@@ -28,7 +28,7 @@ type TemplateDrafts struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code_template/gettemplatedraftlist.html
 func (s *WXAService) GetTemplateDrafts(ctx context.Context, token string) (*TemplateDrafts, *Response, error) {
-	u := fmt.Sprintf("wxa/gettemplatedraftlist?access_token=%s", token)
+	u := fmt.Sprintf("wxa/gettemplatedraftlist?access_token=%v", token)
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
@@ -46,7 +46,7 @@ func (s *WXAService) GetTemplateDrafts(ctx context.Context, token string) (*Temp
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code_template/addtotemplate.html
 func (s *service) AddDraftToTemplate(ctx context.Context, token string, draftID int) (*Response, error) {
-	u := fmt.Sprintf("wxa/addtotemplate?access_token=%s", token)
+	u := fmt.Sprintf("wxa/addtotemplate?access_token=%v", token)
 	payload := &Draft{DraftID: Int(draftID)}
 	req, err := s.client.NewRequest("POST", u, payload)
 	if err != nil {
@@ -77,7 +77,7 @@ type Templates struct {
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code_template/gettemplatelist.html
 func (s *WXAService) GetTemplates(ctx context.Context, token string) (*TemplateDrafts, *Response, error) {
-	u := fmt.Sprintf("wxa/gettemplatedraftlist?access_token=%s", token)
+	u := fmt.Sprintf("wxa/gettemplatedraftlist?access_token=%v", token)
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
@@ -95,7 +95,7 @@ func (s *WXAService) GetTemplates(ctx context.Context, token string) (*TemplateD
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code_template/deletetemplate.html
 func (s *WXAService) DeleteTemplateByID(ctx context.Context, token string, templateID int) (*Response, error) {
-	u := fmt.Sprintf("wxa/deletetemplate?access_token=%s", token)
+	u := fmt.Sprintf("wxa/deletetemplate?access_token=%v", token)
 	payload := &Template{TemplateID: Int(templateID)}
 	req, err := s.client.NewRequest("POST", u, payload)
 	if err != nil {
