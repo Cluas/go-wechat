@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// Wechat API docs: https://developers.weixin.qq.com/doc/
+// ComponentService Wechat API docs: https://developers.weixin.qq.com/doc/
 type ComponentService service
 
 // TokenRequest represents a request to get a token.
@@ -39,7 +39,7 @@ func (s *ComponentService) GetToken(ctx context.Context, r *TokenRequest) (*Toke
 	return token, resp, nil
 }
 
-// CreateMiniProgramRequest represents a request to create a mini program
+// CreateMiniProgramRequest represents a request to create a mini program.
 type CreateMiniProgramRequest struct {
 	Name               *string `json:"name"`
 	Code               *string `json:"code"`

@@ -6,9 +6,7 @@ import (
 	"time"
 )
 
-// CommitRequest docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/commit.html
-// #%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E
+// CommitRequest represents a request to commit code.
 type CommitRequest struct {
 	TemplateID      *int    `json:"template_id,omitempty"`
 	ExtraJSON       *string `json:"ext_json,omitempty"`
@@ -29,9 +27,7 @@ func (s *WXAService) Commit(ctx context.Context, token string, r *CommitRequest)
 	return s.client.Do(ctx, req, nil)
 }
 
-// Pages docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/get_page.html
-// #%E8%BF%94%E5%9B%9E%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E
+// Pages represents a page response.
 type Pages struct {
 	PageList []*string `json:"page_list,omitempty"`
 }
@@ -70,9 +66,7 @@ func (s *WXAService) GetQrCode(ctx context.Context, token, path string) (*Respon
 	return resp, err
 }
 
-// Item docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/submit_audit.html
-// #%E5%AE%A1%E6%A0%B8%E9%A1%B9%E8%AF%B4%E6%98%8E
+// Item represents a submit code item.
 type Item struct {
 	Address     *string `json:"address,omitempty"`
 	Tag         *string `json:"tag,omitempty"`
@@ -85,17 +79,13 @@ type Item struct {
 	Title       *string `json:"title,omitempty"`
 }
 
-// PreviewInfo docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/submit_audit.html
-// #%E9%A2%84%E8%A7%88%E4%BF%A1%E6%81%AF%E8%AF%B4%E6%98%8E
+// PreviewInfo represents a submit audit preview info.
 type PreviewInfo struct {
 	VideoIDs   []*int `json:"video_id_list,omitempty"`
 	PictureIDs []*int `json:"pic_id_list,omitempty"`
 }
 
-// SubmitAuditRequest docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/submit_audit.html
-// #%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E
+// SubmitAuditRequest represents a request to submit audit.
 type SubmitAuditRequest struct {
 	ItemList           []*Item      `json:"item_list,omitempty"`
 	PreviewInfo        *PreviewInfo `json:"preview_info,omitempty"`
@@ -104,7 +94,7 @@ type SubmitAuditRequest struct {
 	FeedbackStuff      *string      `json:"feedback_stuff,omitempty"`
 }
 
-// Audit struct
+// Audit represents a audit info.
 type Audit struct {
 	AuditID *int `json:"auditid,omitempty"`
 }
@@ -124,9 +114,7 @@ func (s *WXAService) SubmitAudit(ctx context.Context, token string, r *SubmitAud
 	return audit, resp, nil
 }
 
-// AuditStatus docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/get_auditstatus.html
-// #%E8%BF%94%E5%9B%9E%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E
+// AuditStatus represents a audit status.
 type AuditStatus struct {
 	Status     *int    `json:"status,omitempty"`
 	Reason     *string `json:"reason,omitempty"`
@@ -204,9 +192,7 @@ func (s *WXAService) RevertCodeRelease(ctx context.Context, token string) (*Resp
 	return s.client.Do(ctx, req, nil)
 }
 
-// GrayReleaseRequest docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/grayrelease.html
-// #%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E
+// GrayReleaseRequest represents a request to grey release.
 type GrayReleaseRequest struct {
 	GrayPercentage *int `json:"gray_percentage,omitempty"`
 }
@@ -224,14 +210,12 @@ func (s *WXAService) GrayRelease(ctx context.Context, token string, r *GrayRelea
 	return s.client.Do(ctx, req, nil)
 }
 
-// GrayReleaseDetail docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/getgrayreleaseplan.html
-// #%E5%88%86%E9%98%B6%E6%AE%B5%E5%8F%91%E5%B8%83%E8%AE%A1%E5%88%92%E8%AF%A6%E6%83%85
+// GrayReleaseDetail represents a grey release detail.
 type GrayReleaseDetail struct {
 	GrayReleasePlan *GrayReleasePlan `json:"gray_release_plan,omitempty"`
 }
 
-// GrayReleasePlan struct
+// GrayReleasePlan represents grey release plan.
 type GrayReleasePlan struct {
 	Status          *int       `json:"status,omitempty"`
 	CreateTimestamp *time.Time `json:"create_timestamp,omitempty"`
@@ -266,8 +250,7 @@ func (s *WXAService) RevertGrayRelease(ctx context.Context, token string) (*Resp
 	return s.client.Do(ctx, req, nil)
 }
 
-// VisitStatus docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/change_visitstatus.html
+// VisitStatus represents status for visit.
 type VisitStatus struct {
 	Action *string `json:"action,omitempty"`
 }
@@ -286,9 +269,7 @@ func (s *service) ChangeVisitStatus(ctx context.Context, token string, action st
 	return s.client.Do(ctx, req, nil)
 }
 
-// Quota docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/query_quota.html
-// #%E8%BF%94%E5%9B%9E%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E
+// Quota represents a quota count.
 type Quota struct {
 	Rest         *int `json:"rest,omitempty"`
 	Limit        *int `json:"limit,omitempty"`

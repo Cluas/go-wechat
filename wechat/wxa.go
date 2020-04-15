@@ -8,16 +8,12 @@ import (
 // WXAService Wechat API docs: https://developers.weixin.qq.com/doc/
 type WXAService service
 
-// BindTesterRequest docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/Admin.html
-// #%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E
+// BindTesterRequest represents a request to bind a tester.
 type BindTesterRequest struct {
 	WechatID *string `json:"wechatid,omitempty"`
 }
 
-// BindTester docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/Admin.html
-// #%E8%BF%94%E5%9B%9E%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E
+// BindTester represents a bind tester.
 type BindTester struct {
 	UserString *string `json:"userstr,omitempty"`
 }
@@ -40,9 +36,7 @@ func (s *WXAService) BindTester(ctx context.Context, token string, r *BindTester
 	return tester, resp, nil
 }
 
-// UnBindTesterRequest docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/unbind_tester.html
-// #%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E
+// UnBindTesterRequest represents a request to unbind a tester.
 type UnBindTesterRequest struct {
 	UserString *string `json:"userstr,omitempty"`
 	WechatID   *string `json:"wechatid,omitempty"`
@@ -61,7 +55,7 @@ func (s *WXAService) UnBindTester(ctx context.Context, token string, r *UnBindTe
 	return s.client.Do(ctx, req, nil)
 }
 
-// Testers .
+// Testers represents a request a bind tester list.
 type Testers struct {
 	Members []*BindTester `json:"members,omitempty"`
 }
@@ -87,7 +81,7 @@ func (s *WXAService) GetTesters(ctx context.Context, token string) (*Testers, *R
 	return testers, resp, nil
 }
 
-// ShowWXAItem info
+// ShowWXAItem represents a item of show wxa.
 type ShowWXAItem struct {
 	CanOpen   *int    `json:"can_open,omitempty"`
 	IsOpen    *int    `json:"is_open,omitempty"`
@@ -114,14 +108,14 @@ func (s *WXAService) GetShowWXAItem(ctx context.Context, token string) (*ShowWXA
 	return showWXAItem, resp, nil
 }
 
-// WXAMPLink link
+// WXAMPLink link.
 type WXAMPLink struct {
 	Nickname  *string `json:"nickname,omitempty"`
 	AppID     *string `json:"appid,omitempty"`
 	HeadImage *string `json:"headimg,omitempty"`
 }
 
-// WXAMPLinks link list
+// WXAMPLinks link list.
 type WXAMPLinks struct {
 	BIZInfoList []*WXAMPLink `json:"biz_info_list,omitempty"`
 	TotalNum    int          `json:"total_num,omitempty"`
