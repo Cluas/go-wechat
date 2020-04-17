@@ -3,15 +3,14 @@ package wechat
 import (
 	"context"
 	"fmt"
-	"time"
 )
 
 // Draft represents a code template draft.
 type Draft struct {
-	CreateTime      *time.Time `json:"create_time,omitempty"`
-	UserVersion     *string    `json:"user_version,omitempty"`
-	UserDescription *string    `json:"user_desc,omitempty"`
-	DraftID         *int       `json:"draft_id,omitempty"`
+	CreateTime      *int    `json:"create_time,omitempty"`
+	UserVersion     *string `json:"user_version,omitempty"`
+	UserDescription *string `json:"user_desc,omitempty"`
+	DraftID         *int    `json:"draft_id,omitempty"`
 }
 
 // TemplateDrafts represents a draft list.
@@ -41,7 +40,7 @@ func (s *WXAService) GetTemplateDrafts(ctx context.Context, token string) (*Temp
 //
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code_template/addtotemplate.html
-func (s *service) AddDraftToTemplate(ctx context.Context, token string, draftID int) (*Response, error) {
+func (s *WXAService) AddDraftToTemplate(ctx context.Context, token string, draftID int) (*Response, error) {
 	u := fmt.Sprintf("wxa/addtotemplate?access_token=%v", token)
 	payload := &Draft{DraftID: Int(draftID)}
 	req, err := s.client.NewRequest("POST", u, payload)
@@ -53,10 +52,10 @@ func (s *service) AddDraftToTemplate(ctx context.Context, token string, draftID 
 
 // Template represents a code template.
 type Template struct {
-	CreateTime      *time.Time `json:"create_time,omitempty"`
-	UserVersion     *string    `json:"user_version,omitempty"`
-	UserDescription *string    `json:"user_desc,omitempty"`
-	TemplateID      *int       `json:"template_id,omitempty"`
+	CreateTime      *int    `json:"create_time,omitempty"`
+	UserVersion     *string `json:"user_version,omitempty"`
+	UserDescription *string `json:"user_desc,omitempty"`
+	TemplateID      *int    `json:"template_id,omitempty"`
 }
 
 // Templates represents a template list.
@@ -68,18 +67,18 @@ type Templates struct {
 //
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code_template/gettemplatelist.html
-func (s *WXAService) GetTemplates(ctx context.Context, token string) (*TemplateDrafts, *Response, error) {
-	u := fmt.Sprintf("wxa/gettemplatedraftlist?access_token=%v", token)
+func (s *WXAService) GetTemplates(ctx context.Context, token string) (*Templates, *Response, error) {
+	u := fmt.Sprintf("wxa/gettemplatelist?access_token=%v", token)
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
 	}
-	drafts := new(TemplateDrafts)
-	resp, err := s.client.Do(ctx, req, drafts)
+	templates := new(Templates)
+	resp, err := s.client.Do(ctx, req, templates)
 	if err != nil {
 		return nil, resp, err
 	}
-	return drafts, resp, nil
+	return templates, resp, nil
 }
 
 // DeleteTemplateByID delete template by id.
