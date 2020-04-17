@@ -18,7 +18,7 @@ type TokenRequest struct {
 // Token represents a API token on a component.
 type Token struct {
 	ComponentAccessToken *string `json:"component_access_token"`
-	ExpireIn             *int    `json:"expire_in"`
+	ExpiresIn            *int    `json:"expires_in"`
 }
 
 // GetToken fetch a new api component token.
@@ -53,7 +53,7 @@ type CreateMiniProgramRequest struct {
 //
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/Fast_Registration_Interface_document.html
-func (s *ComponentService) CreateMiniProgram(ctx context.Context, token string, r *TokenRequest) (*Response, error) {
+func (s *ComponentService) CreateMiniProgram(ctx context.Context, token string, r *CreateMiniProgramRequest) (*Response, error) {
 	u := fmt.Sprintf("cgi-bin/component/fastregisterweapp?action=create&component_access_token=%v", token)
 	req, err := s.client.NewRequest("POST", u, r)
 	if err != nil {
