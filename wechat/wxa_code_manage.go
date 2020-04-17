@@ -3,7 +3,6 @@ package wechat
 import (
 	"context"
 	"fmt"
-	"time"
 )
 
 // CommitRequest represents a request to commit code.
@@ -81,8 +80,8 @@ type Item struct {
 
 // PreviewInfo represents a submit audit preview info.
 type PreviewInfo struct {
-	VideoIDs   []*int `json:"video_id_list,omitempty"`
-	PictureIDs []*int `json:"pic_id_list,omitempty"`
+	VideoIDs   []*string `json:"video_id_list,omitempty"`
+	PictureIDs []*string `json:"pic_id_list,omitempty"`
 }
 
 // SubmitAuditRequest represents a request to submit audit.
@@ -159,7 +158,7 @@ func (s *WXAService) GetLatestAuditStatus(ctx context.Context, token string) (*A
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/undocodeaudit.html
 func (s *WXAService) UndoCodeAudit(ctx context.Context, token string) (*Response, error) {
 	u := fmt.Sprintf("wxa/undocodeaudit?access_token=%v", token)
-	req, err := s.client.NewRequest("POST", u, nil)
+	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -217,9 +216,9 @@ type GrayReleaseDetail struct {
 
 // GrayReleasePlan represents grey release plan.
 type GrayReleasePlan struct {
-	Status          *int       `json:"status,omitempty"`
-	CreateTimestamp *time.Time `json:"create_timestamp,omitempty"`
-	GrayPercentage  *int       `json:"gray_percentage,omitempty"`
+	Status          *int `json:"status,omitempty"`
+	CreateTimestamp *int `json:"create_timestamp,omitempty"`
+	GrayPercentage  *int `json:"gray_percentage,omitempty"`
 }
 
 // GetGrayReleasePlan fetch gray release plan detail.
@@ -228,7 +227,7 @@ type GrayReleasePlan struct {
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/getgrayreleaseplan.html
 func (s *WXAService) GetGrayReleasePlan(ctx context.Context, token string) (*GrayReleaseDetail, *Response, error) {
 	u := fmt.Sprintf("wxa/getgrayreleaseplan?access_token=%v", token)
-	req, err := s.client.NewRequest("POST", u, nil)
+	req, err := s.client.NewRequest("GET", u, nil)
 	detail := new(GrayReleaseDetail)
 	resp, err := s.client.Do(ctx, req, detail)
 	if err != nil {
@@ -259,7 +258,7 @@ type VisitStatus struct {
 //
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/change_visitstatus.html
-func (s *service) ChangeVisitStatus(ctx context.Context, token string, action string) (*Response, error) {
+func (s *WXAService) ChangeVisitStatus(ctx context.Context, token string, action string) (*Response, error) {
 	u := fmt.Sprintf("wxa/change_visitstatus?access_token=%v", token)
 	payload := &VisitStatus{Action: String(action)}
 	req, err := s.client.NewRequest("POST", u, payload)
@@ -281,13 +280,15 @@ type Quota struct {
 //
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/query_quota.html
-func (s *WXAService) QueryQuota(ctx context.Context, token string) (*Response, error) {
+func (s *WXAService) QueryQuota(ctx context.Context, token string) (*Quota, *Response, error) {
 	u := fmt.Sprintf("wxa/queryquota?access_token=%v", token)
 	req, err := s.client.NewRequest("GET", u, nil)
+	quota := new(Quota)
+	resp, err := s.client.Do(ctx, req, quota)
 	if err != nil {
-		return nil, err
+		return nil, resp, err
 	}
-	return s.client.Do(ctx, req, nil)
+	return quota, resp, nil
 }
 
 // SpeedupAudit to speedup audit.

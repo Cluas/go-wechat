@@ -85,7 +85,7 @@ func (s *WXAService) GetTesters(ctx context.Context, token string) (*Testers, *R
 type ShowWXAItem struct {
 	CanOpen   *int    `json:"can_open,omitempty"`
 	IsOpen    *int    `json:"is_open,omitempty"`
-	AppID     *string `json:"app_id,omitempty"`
+	AppID     *string `json:"appid,omitempty"`
 	Nickname  *string `json:"nickname,omitempty"`
 	HeadImage *string `json:"headimg,omitempty"`
 }
