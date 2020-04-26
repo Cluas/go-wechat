@@ -171,7 +171,7 @@ func (s *WXAService) UndoCodeAudit(ctx context.Context, token string) (*Response
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/release.html
 func (s *WXAService) Release(ctx context.Context, token string) (*Response, error) {
 	u := fmt.Sprintf("wxa/release?access_token=%v", token)
-	req, err := s.client.NewRequest("POST", u, nil)
+	req, err := s.client.NewRequest("POST", u, struct{}{})
 	if err != nil {
 		return nil, err
 	}
