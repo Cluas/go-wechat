@@ -28,9 +28,6 @@ type Client struct {
 	// always be specified with a trailing slash.
 	BaseURL *url.URL
 
-	AppID  string
-	Secret string
-
 	// User agent used when communicating with the Wechat API.
 	UserAgent string
 
@@ -154,14 +151,6 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*Res
 		default:
 		}
 
-		// If the error type is *url.Error, sanitize its URL before returning.
-		if e, ok := err.(*url.Error); ok {
-			if url, err := url.Parse(e.URL); err == nil {
-				e.URL = url.String()
-				return nil, e
-			}
-		}
-
 		return nil, err
 	}
 	defer resp.Body.Close()
@@ -202,15 +191,3 @@ func (r *ErrorResponse) Error() string {
 		r.Response.Request.Method, r.Response.Request.URL,
 		r.Response.StatusCode, r.Message, r.Code)
 }
-
-// Int is a helper routine that allocates a new int value
-// to store v and returns a pointer to it.
-func Int(v int) *int { return &v }
-
-// String is a helper routine that allocates a new string value
-// to store v and returns a pointer to it.
-func String(v string) *string { return &v }
-
-// Bool is a helper routine that allocates a new bool value
-// to store v and returns a pointer to it.
-func Bool(v bool) *bool { return &v }

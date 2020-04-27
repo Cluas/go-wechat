@@ -12,7 +12,7 @@ func TestWXAService_BindTester(t *testing.T) {
 	client, mux, _, tearDown := setup()
 	defer tearDown()
 
-	req := &BindTesterRequest{WechatID: String("testid")}
+	req := &BindTesterRequest{WechatID: "testid"}
 
 	mux.HandleFunc("/wxa/bind_tester", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -25,11 +25,11 @@ func TestWXAService_BindTester(t *testing.T) {
 
 	got, _, err := client.WXA.BindTester(context.Background(), "token", req)
 	if err != nil {
-		t.Errorf("WXA.BindTester retured err: %v", err)
+		t.Errorf("WXA.Tester retured err: %v", err)
 	}
-	want := &BindTester{UserString: String("xxxxxxxxx")}
+	want := &Tester{UserString: "xxxxxxxxx"}
 	if !reflect.DeepEqual(got, want) {
-		t.Errorf("WXA.BindTester got %+v, want %+v", got, want)
+		t.Errorf("WXA.Tester got %+v, want %+v", got, want)
 	}
 }
 
@@ -54,18 +54,18 @@ func TestWXAService_GetShowWXAItem(t *testing.T) {
 		t.Errorf("WXA.GetShowWXAItem retured err: %v", err)
 	}
 	want := &ShowWXAItem{
-		CanOpen:   Int(1),
-		IsOpen:    Int(1),
-		AppID:     String("展示的公众号appid"),
-		Nickname:  String("展示的公众号nickname"),
-		HeadImage: String("展示的公众号头像"),
+		CanOpen:   1,
+		IsOpen:    1,
+		AppID:     "展示的公众号appid",
+		Nickname:  "展示的公众号nickname",
+		HeadImage: "展示的公众号头像",
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("WXA.GetShowWXAItem got %+v, want %+v", got, want)
 	}
 }
 
-func TestWXAService_GetTesters(t *testing.T) {
+func TestWXAService_MemberAuth(t *testing.T) {
 	client, mux, _, tearDown := setup()
 	defer tearDown()
 
@@ -84,13 +84,13 @@ func TestWXAService_GetTesters(t *testing.T) {
 								]
 							}`)
 	})
-	got, _, err := client.WXA.GetTesters(context.Background(), "token")
+	got, _, err := client.WXA.MemberAuth(context.Background(), "token")
 	if err != nil {
-		t.Errorf("WXA.GetTesters retured err: %v", err)
+		t.Errorf("WXA.MemberAuth retured err: %v", err)
 	}
-	want := &Testers{Members: []*BindTester{{UserString: String("xxxxxxxx")}, {UserString: String("yyyyyyyy")}}}
+	want := &Testers{Members: []*Tester{{UserString: "xxxxxxxx"}, {UserString: "yyyyyyyy"}}}
 	if !reflect.DeepEqual(got, want) {
-		t.Errorf("WXA.GetTesters got %+v, want %+v", got, want)
+		t.Errorf("WXA.MemberAuth got %+v, want %+v", got, want)
 	}
 }
 
@@ -119,7 +119,7 @@ func TestWXAService_GetWXAMpLinkForShow(t *testing.T) {
 		t.Errorf("WXA.GetWXAMpLinkForShow retured err: %v", err)
 	}
 	want := &WXAMPLinks{
-		BIZInfoList: []*WXAMPLink{{Nickname: String("公众号昵称"), AppID: String("公众号appid"), HeadImage: String("公众号头像")}},
+		BIZInfoList: []*WXAMPLink{{Nickname: "公众号昵称", AppID: "公众号appid", HeadImage: "公众号头像"}},
 		TotalNum:    10,
 	}
 	if !reflect.DeepEqual(got, want) {
@@ -132,8 +132,8 @@ func TestWXAService_UnBindTester(t *testing.T) {
 	defer tearDown()
 
 	req := &UnBindTesterRequest{
-		UserString: String("testtest"),
-		WechatID:   nil,
+		UserString: "testtest",
+		WechatID:   "",
 	}
 	mux.HandleFunc("/wxa/unbind_tester", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)

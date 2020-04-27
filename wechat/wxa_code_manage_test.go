@@ -30,10 +30,10 @@ func TestWXAService_Commit(t *testing.T) {
 	defer tearDown()
 
 	req := &CommitRequest{
-		TemplateID:      Int(0),
-		ExtraJSON:       String("{\"extAppid\":\"\",\"ext\":{\"attr1\":\"value1\",\"attr2\":\"value2\"},\"extPages\":{\"index\":{},\"search/index\":{}},\"pages\":[\"index\",\"search/index\"],\"window\":{},\"networkTimeout\":{},\"tabBar\":{}}"),
-		UserVersion:     String("V1.0"),
-		UserDescription: String("test"),
+		TemplateID:  0,
+		ExtraJSON:   "{\"extAppid\":\"\",\"ext\":{\"attr1\":\"value1\",\"attr2\":\"value2\"},\"extPages\":{\"index\":{},\"search/index\":{}},\"pages\":[\"index\",\"search/index\"],\"window\":{},\"networkTimeout\":{},\"tabBar\":{}}",
+		UserVersion: "V1.0",
+		UserDesc:    "test",
 	}
 
 	mux.HandleFunc("/wxa/commit", func(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +50,7 @@ func TestWXAService_Commit(t *testing.T) {
 	}
 }
 
-func TestWXAService_GetAuditStatusByID(t *testing.T) {
+func TestWXAService_GetAuditStatus(t *testing.T) {
 	client, mux, _, tearDown := setup()
 	defer tearDown()
 
@@ -64,17 +64,17 @@ func TestWXAService_GetAuditStatusByID(t *testing.T) {
 							  "screenshot": "xxx|yyy|zzz"
 							}`)
 	})
-	got, _, err := client.WXA.GetAuditStatusByID(context.Background(), "token", 1234567)
+	got, _, err := client.WXA.GetAuditStatus(context.Background(), "token", 1234567)
 	if err != nil {
-		t.Errorf("WXA.GetAuditStatusByID retured err: %v", err)
+		t.Errorf("WXA.GetAuditStatus retured err: %v", err)
 	}
 	want := &AuditStatus{
-		Status:     Int(1),
-		Reason:     String("帐号信息不合规范"),
-		Screenshot: String("xxx|yyy|zzz"),
+		Status:     1,
+		Reason:     "帐号信息不合规范",
+		Screenshot: "xxx|yyy|zzz",
 	}
 	if !reflect.DeepEqual(got, want) {
-		t.Errorf("WXA.GetAuditStatusByID got %+v, want %+v", got, want)
+		t.Errorf("WXA.GetAuditStatus got %+v, want %+v", got, want)
 	}
 }
 
@@ -99,9 +99,9 @@ func TestWXAService_GetGrayReleasePlan(t *testing.T) {
 		t.Errorf("WXA.GetGrayReleasePlan retured err: %v", err)
 	}
 	want := &GrayReleaseDetail{GrayReleasePlan: &GrayReleasePlan{
-		Status:          Int(1),
-		CreateTimestamp: Int(1517553721),
-		GrayPercentage:  Int(8),
+		Status:          1,
+		CreateTimestamp: 1517553721,
+		GrayPercentage:  8,
 	}}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("WXA.GetGrayReleasePlan got %+v, want %+v", got, want)
@@ -128,16 +128,16 @@ func TestWXAService_GetLatestAuditStatus(t *testing.T) {
 		t.Errorf("WXA.GetLatestAuditStatus retured err: %v", err)
 	}
 	want := &AuditStatus{
-		Status:     Int(1),
-		Reason:     String("帐号信息不合规范"),
-		ScreenShot: String("xx|yy|zz"),
+		Status:     1,
+		Reason:     "帐号信息不合规范",
+		ScreenShot: "xx|yy|zz",
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("WXA.GetLatestAuditStatus got %+v, want %+v", got, want)
 	}
 }
 
-func TestWXAService_GetPages(t *testing.T) {
+func TestWXAService_GetPage(t *testing.T) {
 	client, mux, _, tearDown := setup()
 	defer tearDown()
 
@@ -149,13 +149,13 @@ func TestWXAService_GetPages(t *testing.T) {
 							  "page_list": ["index", "page/list", "page/detail"]
 							}`)
 	})
-	got, _, err := client.WXA.GetPages(context.Background(), "token")
+	got, _, err := client.WXA.GetPage(context.Background(), "token")
 	if err != nil {
-		t.Errorf("WXA.GetPages retured err: %v", err)
+		t.Errorf("WXA.GetPage retured err: %v", err)
 	}
-	want := &Pages{PageList: []*string{String("index"), String("page/list"), String("page/detail")}}
+	want := &Page{PageList: []string{"index", "page/list", "page/detail"}}
 	if !reflect.DeepEqual(got, want) {
-		t.Errorf("WXA.GetPages got %+v, want %+v", got, want)
+		t.Errorf("WXA.GetPage got %+v, want %+v", got, want)
 	}
 }
 
@@ -163,7 +163,7 @@ func TestWXAService_GrayRelease(t *testing.T) {
 	client, mux, _, tearDown := setup()
 	defer tearDown()
 
-	req := &GrayReleaseRequest{GrayPercentage: Int(1)}
+	req := &GrayReleaseRequest{GrayPercentage: 1}
 	mux.HandleFunc("/wxa/grayrelease", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{
@@ -197,10 +197,10 @@ func TestWXAService_QueryQuota(t *testing.T) {
 		t.Errorf("WXA.QueryQuota retured err: %v", err)
 	}
 	want := &Quota{
-		Rest:         Int(0),
-		Limit:        Int(0),
-		SpeedupRest:  Int(0),
-		SpeedupLimit: Int(0),
+		Rest:         0,
+		Limit:        0,
+		SpeedupRest:  0,
+		SpeedupLimit: 0,
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("WXA.QueryQuota got %+v, want %+v", got, want)
@@ -282,33 +282,33 @@ func TestWXAService_SubmitAudit(t *testing.T) {
 	req := &SubmitAuditRequest{
 		ItemList: []*Item{
 			{
-				Address:     String("index"),
-				Tag:         String("学习 生活"),
-				FirstClass:  String("文娱"),
-				SecondClass: String("资讯"),
-				FirstID:     Int(1),
-				SecondID:    Int(2),
-				Title:       String("首页"),
+				Address:     "index",
+				Tag:         "学习 生活",
+				FirstClass:  "文娱",
+				SecondClass: "资讯",
+				FirstID:     1,
+				SecondID:    2,
+				Title:       "首页",
 			},
 			{
-				Address:     String("page/logs/logs"),
-				Tag:         String("学习 工作"),
-				FirstClass:  String("教育"),
-				SecondClass: String("学历教育"),
-				ThirdClass:  String("高等"),
-				FirstID:     Int(3),
-				SecondID:    Int(4),
-				ThirdID:     Int(5),
-				Title:       String("日志"),
+				Address:     "page/logs/logs",
+				Tag:         "学习 工作",
+				FirstClass:  "教育",
+				SecondClass: "学历教育",
+				ThirdClass:  "高等",
+				FirstID:     3,
+				SecondID:    4,
+				ThirdID:     5,
+				Title:       "日志",
 			},
 		},
 		PreviewInfo: &PreviewInfo{
-			VideoIDs:   []*string{String("xxxx")},
-			PictureIDs: []*string{String("xxxx"), String("yyyy"), String("zzzz")},
+			VideoIDs:   []string{"xxxx"},
+			PictureIDs: []string{"xxxx", "yyyy", "zzzz"},
 		},
-		VersionDescription: String("blablabla"),
-		FeedbackInfo:       String("blablabla"),
-		FeedbackStuff:      String("xx|yy|zz"),
+		VersionDescription: "blablabla",
+		FeedbackInfo:       "blablabla",
+		FeedbackStuff:      "xx|yy|zz",
 	}
 	mux.HandleFunc("/wxa/submit_audit", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -322,7 +322,7 @@ func TestWXAService_SubmitAudit(t *testing.T) {
 	if err != nil {
 		t.Errorf("WXA.SubmitAudit retured err: %v", err)
 	}
-	want := &Audit{AuditID: Int(1234567)}
+	want := &Audit{AuditID: 1234567}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("WXA.SubmitAudit got %+v, want %+v", got, want)
 	}

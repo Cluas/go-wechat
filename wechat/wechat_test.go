@@ -71,11 +71,11 @@ func TestDo(t *testing.T) {
 	}
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{"A":"a"}`)
 	})
 
-	req, _ := client.NewRequest("GET", "/", nil)
+	req, _ := client.NewRequest(http.MethodGet, "/", nil)
 	body := new(foo)
 	client.Do(context.Background(), req, body)
 
@@ -88,7 +88,7 @@ func TestDo_nilContext(t *testing.T) {
 	client, _, _, tearDown := setup()
 	defer tearDown()
 
-	req, _ := client.NewRequest("GET", ".", nil)
+	req, _ := client.NewRequest(http.MethodGet, ".", nil)
 	_, err := client.Do(nil, req, nil)
 
 	if !reflect.DeepEqual(err, errors.New("context must be non-nil")) {
@@ -104,7 +104,7 @@ func TestDo_httpError(t *testing.T) {
 		http.Error(w, "Bad Request", http.StatusBadRequest)
 	})
 
-	req, _ := client.NewRequest("GET", ".", nil)
+	req, _ := client.NewRequest(http.MethodGet, ".", nil)
 	resp, err := client.Do(context.Background(), req, nil)
 
 	if err != nil {
@@ -172,8 +172,8 @@ func TestNewRequest(t *testing.T) {
 	c := NewClient(nil)
 
 	inURL, outURL := "/foo", defaultBaseURL+"foo"
-	inBody, outBody := &BasicInfo{AppID: String("a")}, `{"app_id":"a"}`+"\n"
-	req, _ := c.NewRequest("GET", inURL, inBody)
+	inBody, outBody := &GrayReleaseRequest{GrayPercentage: 10}, `{"gray_percentage":10}`+"\n"
+	req, _ := c.NewRequest(http.MethodGet, inURL, inBody)
 
 	// test that relative URL was expanded
 	if got, want := req.URL.String(), outURL; got != want {
@@ -183,7 +183,7 @@ func TestNewRequest(t *testing.T) {
 	// test that body was JSON encoded
 	body, _ := ioutil.ReadAll(req.Body)
 	if got, want := string(body), outBody; got != want {
-		t.Errorf("NewRequest(%q) Body is %v, want %v", inBody, got, want)
+		t.Errorf("NewRequest(%v) Body is %v, want %v", inBody, got, want)
 	}
 
 	// test that default user-agent is attached to the request
@@ -199,7 +199,7 @@ func TestNewRequest_invalidJSON(t *testing.T) {
 		A map[interface{}]interface{}
 	}
 
-	_, err := c.NewRequest("GET", ".", &T{})
+	_, err := c.NewRequest(http.MethodGet, ".", &T{})
 	if err == nil {
 		t.Errorf("Expected error to be returned.")
 	}
@@ -210,6 +210,6 @@ func TestNewRequest_invalidJSON(t *testing.T) {
 
 func TestNewRequest_badURL(t *testing.T) {
 	c := NewClient(nil)
-	_, err := c.NewRequest("GET", ":", nil)
+	_, err := c.NewRequest(http.MethodGet, ":", nil)
 	testURLParseError(t, err)
 }

@@ -9,28 +9,28 @@ import (
 )
 
 func TestBasicInfo_marshal(t *testing.T) {
-	testJSONMarshal(t, &BasicInfo{}, "{}")
+	testJSONMarshal(t, &AccountBasicInfo{}, "{}")
 
-	b := &BasicInfo{
-		AppID:          String("app_id"),
-		AccountType:    Int(1),
-		PrincipalType:  Int(1),
-		PrincipalName:  String("principal_name"),
-		RealNameStatus: String("verify"),
+	b := &AccountBasicInfo{
+		AppID:          "app_id",
+		AccountType:    1,
+		PrincipalType:  1,
+		PrincipalName:  "principal_name",
+		RealNameStatus: "verify",
 		WXVerifyInfo: &WXVerifyInfo{
-			QualificationVerify: Bool(true),
-			NamingVerify:        Bool(true),
-			AnnualReview:        Bool(true),
+			QualificationVerify: true,
+			NamingVerify:        true,
+			AnnualReview:        true,
 		},
 		SignatureInfo: &SignatureInfo{
-			Signature:       String("signature"),
-			ModifyUsedCount: Int(1),
-			ModifyQuota:     Int(1),
+			Signature:       "signature",
+			ModifyUsedCount: 1,
+			ModifyQuota:     1,
 		},
 		HeadImageInfo: &HeadImageInfo{
-			HeadImageURL:    String("url"),
-			ModifyUsedCount: Int(1),
-			ModifyQuota:     Int(1),
+			HeadImageURL:    "url",
+			ModifyUsedCount: 1,
+			ModifyQuota:     1,
 		},
 	}
 	want := `
@@ -60,24 +60,24 @@ func TestBasicInfo_marshal(t *testing.T) {
 	testJSONMarshal(t, b, want)
 }
 
-func TestAccountService_GetBasicInfo(t *testing.T) {
+func TestAccountService_GetAccountBasicInfo(t *testing.T) {
 	client, mux, _, tearDown := setup()
 	defer tearDown()
 
 	mux.HandleFunc("/cgi-bin/account/getaccountbasicinfo", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{"app_id":"app_id", "account_type":1, "principal_type":1, "principal_name": "principal_name", "realname_status":"verify"}`)
 	})
-	info, _, err := client.Account.GetBasicInfo(context.Background(), "token")
+	info, _, err := client.Account.GetAccountBasicInfo(context.Background(), "token")
 	if err != nil {
 		t.Errorf("Account.GetBasicInfo returned error: %v", err)
 	}
-	want := &BasicInfo{
-		AppID:          String("app_id"),
-		AccountType:    Int(1),
-		PrincipalType:  Int(1),
-		PrincipalName:  String("principal_name"),
-		RealNameStatus: String("verify"),
+	want := &AccountBasicInfo{
+		AppID:          "app_id",
+		AccountType:    1,
+		PrincipalType:  1,
+		PrincipalName:  "principal_name",
+		RealNameStatus: "verify",
 	}
 	if !reflect.DeepEqual(info, want) {
 		t.Errorf("Account.GetBasicInfo returned %+v, want %+v", info, want)

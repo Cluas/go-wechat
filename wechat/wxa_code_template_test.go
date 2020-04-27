@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestWXAService_AddDraftToTemplate(t *testing.T) {
+func TestWXAService_AddToTemplate(t *testing.T) {
 	client, mux, _, tearDown := setup()
 	defer tearDown()
 
@@ -19,12 +19,12 @@ func TestWXAService_AddDraftToTemplate(t *testing.T) {
 							  "errmsg": "ok",
 							}`)
 	})
-	_, err := client.WXA.AddDraftToTemplate(context.Background(), "token", 0)
+	_, err := client.WXA.AddToTemplate(context.Background(), "token", 0)
 	if err != nil {
-		t.Errorf("WXA.AddDraftToTemplate retured err: %v", err)
+		t.Errorf("WXA.AddToTemplate retured err: %v", err)
 	}
 }
-func TestWXAService_DeleteTemplateByID(t *testing.T) {
+func TestWXAService_DeleteTemplate(t *testing.T) {
 	client, mux, _, tearDown := setup()
 	defer tearDown()
 
@@ -38,14 +38,14 @@ func TestWXAService_DeleteTemplateByID(t *testing.T) {
 							  "screenshot": "xxx|yyy|zzz"
 							}`)
 	})
-	_, err := client.WXA.DeleteTemplateByID(context.Background(), "token", 0)
+	_, err := client.WXA.DeleteTemplate(context.Background(), "token", 0)
 	if err != nil {
-		t.Errorf("WXA.DeleteTemplateByID retured err: %v", err)
+		t.Errorf("WXA.DeleteTemplate retured err: %v", err)
 	}
 
 }
 
-func TestWXAService_GetTemplateDrafts(t *testing.T) {
+func TestWXAService_GetTemplateDraftList(t *testing.T) {
 	client, mux, _, tearDown := setup()
 	defer tearDown()
 
@@ -70,30 +70,30 @@ func TestWXAService_GetTemplateDrafts(t *testing.T) {
 							  ]
 							}`)
 	})
-	got, _, err := client.WXA.GetTemplateDrafts(context.Background(), "token")
+	got, _, err := client.WXA.GetTemplateDraftList(context.Background(), "token")
 	if err != nil {
-		t.Errorf("WXA.GetTemplateDrafts retured err: %v", err)
+		t.Errorf("WXA.GetTemplateDraftList retured err: %v", err)
 	}
 	want := &TemplateDrafts{DraftList: []*Draft{
 		{
-			CreateTime:      Int(1488965944),
-			UserVersion:     String("VVV"),
-			UserDescription: String("AAS"),
-			DraftID:         Int(0),
+			CreateTime:      1488965944,
+			UserVersion:     "VVV",
+			UserDescription: "AAS",
+			DraftID:         0,
 		},
 		{
-			CreateTime:      Int(1504790906),
-			UserVersion:     String("11"),
-			UserDescription: String("111111"),
-			DraftID:         Int(4),
+			CreateTime:      1504790906,
+			UserVersion:     "11",
+			UserDescription: "111111",
+			DraftID:         4,
 		},
 	}}
 	if !reflect.DeepEqual(got, want) {
-		t.Errorf("WXA.GetTemplateDrafts got %+v, want %+v", got, want)
+		t.Errorf("WXA.GetTemplateDraftList got %+v, want %+v", got, want)
 	}
 }
 
-func TestWXAService_GetTemplates(t *testing.T) {
+func TestWXAService_GetTemplateList(t *testing.T) {
 	client, mux, _, tearDown := setup()
 	defer tearDown()
 
@@ -118,25 +118,25 @@ func TestWXAService_GetTemplates(t *testing.T) {
 							  ]
 							}`)
 	})
-	got, _, err := client.WXA.GetTemplates(context.Background(), "token")
+	got, _, err := client.WXA.GetTemplateList(context.Background(), "token")
 	if err != nil {
-		t.Errorf("WXA.GetTemplates retured err: %v", err)
+		t.Errorf("WXA.GetTemplateList retured err: %v", err)
 	}
 	want := &Templates{TemplateList: []*Template{
 		{
-			CreateTime:      Int(1488965944),
-			UserVersion:     String("VVV"),
-			UserDescription: String("AAS"),
-			TemplateID:      Int(0),
+			CreateTime:  1488965944,
+			UserVersion: "VVV",
+			UserDesc:    "AAS",
+			TemplateID:  0,
 		},
 		{
-			CreateTime:      Int(1504790906),
-			UserVersion:     String("11"),
-			UserDescription: String("111111"),
-			TemplateID:      Int(4),
+			CreateTime:  1504790906,
+			UserVersion: "11",
+			UserDesc:    "111111",
+			TemplateID:  4,
 		},
 	}}
 	if !reflect.DeepEqual(got, want) {
-		t.Errorf("WXA.GetTemplates got %+v, want %+v", got, want)
+		t.Errorf("WXA.GetTemplateList got %+v, want %+v", got, want)
 	}
 }
