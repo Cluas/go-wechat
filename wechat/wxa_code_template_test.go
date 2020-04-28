@@ -76,16 +76,16 @@ func TestWXAService_GetTemplateDraftList(t *testing.T) {
 	}
 	want := &TemplateDrafts{DraftList: []*Draft{
 		{
-			CreateTime:      1488965944,
-			UserVersion:     "VVV",
-			UserDescription: "AAS",
-			DraftID:         0,
+			CreateTime:  1488965944,
+			UserVersion: "VVV",
+			UserDesc:    "AAS",
+			DraftID:     0,
 		},
 		{
-			CreateTime:      1504790906,
-			UserVersion:     "11",
-			UserDescription: "111111",
-			DraftID:         4,
+			CreateTime:  1504790906,
+			UserVersion: "11",
+			UserDesc:    "111111",
+			DraftID:     4,
 		},
 	}}
 	if !reflect.DeepEqual(got, want) {

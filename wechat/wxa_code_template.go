@@ -8,10 +8,10 @@ import (
 
 // Draft represents a code template draft.
 type Draft struct {
-	CreateTime      int    `json:"create_time"`
-	UserVersion     string `json:"user_version"`
-	UserDescription string `json:"user_desc"`
-	DraftID         int    `json:"draft_id"`
+	CreateTime  int64  `json:"create_time"`
+	UserVersion string `json:"user_version"`
+	UserDesc    string `json:"user_desc"`
+	DraftID     int    `json:"draft_id"`
 }
 
 // TemplateDrafts represents a draft list.
