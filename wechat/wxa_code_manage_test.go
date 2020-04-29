@@ -19,7 +19,7 @@ func TestWXAService_ChangeVisitStatus(t *testing.T) {
 							  "errmsg": "ok"
 							}`)
 	})
-	_, err := client.WXA.ChangeVisitStatus(context.Background(), "token", "close")
+	_, err := client.WXA.ChangeVisitStatus(context.Background(), "token", &ChangeVisitStatusRequest{Action: "close"})
 	if err != nil {
 		t.Errorf("WXA.ChangeVisitStatus retured err: %v", err)
 	}
@@ -64,7 +64,7 @@ func TestWXAService_GetAuditStatus(t *testing.T) {
 							  "screenshot": "xxx|yyy|zzz"
 							}`)
 	})
-	got, _, err := client.WXA.GetAuditStatus(context.Background(), "token", 1234567)
+	got, _, err := client.WXA.GetAuditStatus(context.Background(), "token", &GetAuditStatusRequest{AuditID: 0})
 	if err != nil {
 		t.Errorf("WXA.GetAuditStatus retured err: %v", err)
 	}
@@ -269,7 +269,7 @@ func TestWXAService_SpeedupAudit(t *testing.T) {
 							  "errmsg": "ok"
 							}`)
 	})
-	_, err := client.WXA.SpeedupAudit(context.Background(), "token", 12345)
+	_, err := client.WXA.SpeedupAudit(context.Background(), "token", &SpeedupAuditRequest{AuditID: 12345})
 	if err != nil {
 		t.Errorf("WXA.SpeedupAudit retured err: %v", err)
 	}

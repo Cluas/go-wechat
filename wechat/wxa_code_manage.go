@@ -122,14 +122,18 @@ type AuditStatus struct {
 	ScreenShot string `json:"ScreenShot,omitempty"` // Do not ask me why...
 }
 
+// GetAuditStatusRequest represents get audit status request.
+type GetAuditStatusRequest struct {
+	AuditID int `json:"auditid"`
+}
+
 // GetAuditStatus fetch audit status by auditID.
 //
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/get_auditstatus.html
-func (s *WXAService) GetAuditStatus(ctx context.Context, token string, auditID int) (*AuditStatus, *Response, error) {
+func (s *WXAService) GetAuditStatus(ctx context.Context, token string, r *GetAuditStatusRequest) (*AuditStatus, *Response, error) {
 	u := fmt.Sprintf("wxa/get_auditstatus?access_token=%v", token)
-	payload := &Audit{auditID}
-	req, err := s.client.NewRequest(http.MethodPost, u, payload)
+	req, err := s.client.NewRequest(http.MethodPost, u, r)
 	status := new(AuditStatus)
 	resp, err := s.client.Do(ctx, req, status)
 	if err != nil {
@@ -255,14 +259,18 @@ type VisitStatus struct {
 	Action string `json:"action"`
 }
 
+// ChangeVisitStatusRequest represents change visit status request.
+type ChangeVisitStatusRequest struct {
+	Action string `json:"action"`
+}
+
 // ChangeVisitStatus change visit status.
 //
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/change_visitstatus.html
-func (s *WXAService) ChangeVisitStatus(ctx context.Context, token string, action string) (*Response, error) {
+func (s *WXAService) ChangeVisitStatus(ctx context.Context, token string, r *ChangeVisitStatusRequest) (*Response, error) {
 	u := fmt.Sprintf("wxa/change_visitstatus?access_token=%v", token)
-	payload := &VisitStatus{Action: action}
-	req, err := s.client.NewRequest(http.MethodPost, u, payload)
+	req, err := s.client.NewRequest(http.MethodPost, u, r)
 	if err != nil {
 		return nil, err
 	}
@@ -292,14 +300,18 @@ func (s *WXAService) QueryQuota(ctx context.Context, token string) (*Quota, *Res
 	return quota, resp, nil
 }
 
+// SpeedupAuditRequest request for speedup audit
+type SpeedupAuditRequest struct {
+	AuditID int `json:"auditid"`
+}
+
 // SpeedupAudit to speedup audit.
 //
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/speedup_audit.html
-func (s *WXAService) SpeedupAudit(ctx context.Context, token string, auditID int) (*Response, error) {
+func (s *WXAService) SpeedupAudit(ctx context.Context, token string, r *SpeedupAuditRequest) (*Response, error) {
 	u := fmt.Sprintf("wxa/speedupaudit?access_token=%v", token)
-	payload := &Audit{auditID}
-	req, err := s.client.NewRequest(http.MethodPost, u, payload)
+	req, err := s.client.NewRequest(http.MethodPost, u, r)
 	if err != nil {
 		return nil, err
 	}
