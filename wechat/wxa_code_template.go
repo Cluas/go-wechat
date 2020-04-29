@@ -84,14 +84,18 @@ func (s *WXAService) GetTemplateList(ctx context.Context, token string) (*Templa
 	return templates, resp, nil
 }
 
+// DeleteTemplateRequest delete a template
+type DeleteTemplateRequest struct {
+	TemplateID int `json:"template_id"`
+}
+
 // DeleteTemplate delete template by id.
 //
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code_template/deletetemplate.html
-func (s *WXAService) DeleteTemplate(ctx context.Context, token string, templateID int) (*Response, error) {
+func (s *WXAService) DeleteTemplate(ctx context.Context, token string, r *DeleteTemplateRequest) (*Response, error) {
 	u := fmt.Sprintf("wxa/deletetemplate?access_token=%v", token)
-	payload := &Template{TemplateID: templateID}
-	req, err := s.client.NewRequest(http.MethodPost, u, payload)
+	req, err := s.client.NewRequest(http.MethodPost, u, r)
 	if err != nil {
 		return nil, err
 	}

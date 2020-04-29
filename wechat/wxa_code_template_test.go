@@ -38,7 +38,7 @@ func TestWXAService_DeleteTemplate(t *testing.T) {
 							  "screenshot": "xxx|yyy|zzz"
 							}`)
 	})
-	_, err := client.WXA.DeleteTemplate(context.Background(), "token", 0)
+	_, err := client.WXA.DeleteTemplate(context.Background(), "token", &DeleteTemplateRequest{TemplateID: 0})
 	if err != nil {
 		t.Errorf("WXA.DeleteTemplate retured err: %v", err)
 	}
