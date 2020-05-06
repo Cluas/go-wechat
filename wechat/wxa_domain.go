@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// ModifyDomainRequest represents modify domain request.
 type ModifyDomainRequest struct {
 	Action          string   `json:"action"`
 	RequestDomain   []string `json:"requestdomain,omitempty"`
@@ -14,6 +15,7 @@ type ModifyDomainRequest struct {
 	DownloadDomain  []string `json:"downloaddomain,omitempty"`
 }
 
+// Domain represents domain response.
 type Domain struct {
 	RequestDomain   []string `json:"requestdomain,omitempty"`
 	WSRequestDomain []string `json:"wsrequestdomain,omitempty"`
@@ -38,12 +40,13 @@ func (s *WXAService) ModifyDomain(ctx context.Context, token string, r *ModifyDo
 	return domain, resp, nil
 }
 
+// SetWebViewDomainRequest represents set web view domain request.
 type SetWebViewDomainRequest struct {
 	Action        string   `json:"action,omitempty"`
 	WebViewDomain []string `json:"webviewdomain,omitempty"`
 }
 
-// ModifyDomain server address configuration.
+// SetWebViewDomain server address configuration.
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/Server_Address_Configuration.html
 func (s *WXAService) SetWebViewDomain(ctx context.Context, token string, r *SetWebViewDomainRequest) (*Response, error) {

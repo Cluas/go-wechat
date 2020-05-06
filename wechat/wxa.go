@@ -19,7 +19,7 @@ type Tester struct {
 	UserString string `json:"userstr,omitempty"`
 }
 
-// Tester bind a tester for this app.
+// BindTester bind a tester for this app.
 //
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/Admin.html
@@ -122,7 +122,7 @@ type WXAMPLinks struct {
 	TotalNum    int          `json:"total_num"`
 }
 
-// GetShowWXAItem get show wxa item
+// GetWXAMpLinkForShow get show wxa item
 //
 // Wechat API docs:
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/subscribe_component/getwxamplinkforshow.html
