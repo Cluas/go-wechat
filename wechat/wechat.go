@@ -24,7 +24,7 @@ type Client struct {
 	client   *http.Client // HTTP client used to communicate with the API.
 
 	// Base URL for API requests. Defaults to the public Wechat API, but can be
-	// set to a domain endpoint to use with GitHub Enterprise. BaseURL should
+	// set to a domain endpoint to use with Wechat Enterprise. BaseURL should
 	// always be specified with a trailing slash.
 	BaseURL *url.URL
 
@@ -101,8 +101,8 @@ func withContext(ctx context.Context, req *http.Request) *http.Request {
 	return req.WithContext(ctx)
 }
 
-// Response is a GitHub API response. This wraps the standard http.Response
-// returned from GitHub and provides convenient access to things like
+// Response is a Wechat API response. This wraps the standard http.Response
+// returned from Wechat and provides convenient access to things like
 // pagination links.
 type Response struct {
 	*http.Response
