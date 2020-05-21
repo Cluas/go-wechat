@@ -50,22 +50,6 @@ func (s *WXAService) GetPage(ctx context.Context, token string) (*Page, *Respons
 	return pages, resp, nil
 }
 
-// GetQrCode fetch qr_code.
-//
-// Wechat API docs:
-// https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/Mini_Programs/code/get_qrcode.html
-func (s *WXAService) GetQrCode(ctx context.Context, token, path string) (*Response, error) {
-	u := fmt.Sprintf("wxa/get_qrcode?access_token=%v&path=%s", token, path)
-	req, err := s.client.NewRequest(http.MethodGet, u, nil)
-	if err != nil {
-		return nil, err
-	}
-	s.client.clientMu.Lock()
-	defer s.client.clientMu.Unlock()
-	resp, err := s.client.Do(ctx, req, nil)
-	return resp, err
-}
-
 // Item represents a submit code item.
 type Item struct {
 	Address     string `json:"address,omitempty"`
